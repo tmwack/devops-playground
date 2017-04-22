@@ -1,0 +1,14 @@
+{
+  "name": "node-sample",
+  "version": "1.0.0",
+  "description": "node sample app to use as an experimentation artifact for deployments, etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "twack",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
