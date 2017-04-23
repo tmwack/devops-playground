@@ -1,0 +1,9 @@
+{
+    "ApplicationName": "CO_TemplateApp", 
+    "VersionLabel": "0.0.0.1", 
+    "Description": "", 
+    "SourceBundle": {
+        "S3Bucket": "CimpressOpen_Artifacts", 
+        "S3Key": "0.0.0.1-template.zip"
+    }
+}

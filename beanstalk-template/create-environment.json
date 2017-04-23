@@ -1,0 +1,8 @@
+{
+    "ApplicationName": "CO_TemplateApp", 
+    "EnvironmentName": "CimpressOpen_AWS_IRL_PRD", 
+    "VersionLabel": "0.0.1.0", // the version deployed 
+    "TemplateName": "", // config template
+    "Description": "The production environment for the CO_TemplateApp.", 
+    "Tags": []
+}

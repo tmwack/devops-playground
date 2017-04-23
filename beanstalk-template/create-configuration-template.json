@@ -1,0 +1,18 @@
+{
+    "ApplicationName": "CO_TemplateApp", 
+    "TemplateName": "", 
+    "SolutionStackName": "64bit Amazon Linux 2016.09 v4.0.1 running Node.js", 
+    "SourceConfiguration": {
+        "ApplicationName": "", 
+        "TemplateName": ""
+    }, 
+    "EnvironmentId": "", 
+    "Description": "", 
+    "OptionSettings": [
+        {
+            "Namespace": "", 
+            "OptionName": "", 
+            "Value": ""
+        }
+    ]
+}

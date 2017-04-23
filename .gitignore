@@ -1,0 +1,5 @@
+.DS_Store
+set-aws-keys.sh
+*.tfvars
+*.tfstate*
+target/
