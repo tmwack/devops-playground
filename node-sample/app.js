@@ -11,7 +11,7 @@ app.get('/', function(req, res) {
     res.send('I\'m an endpoint!');
 });
 
-var port = 3000;
+var port = 80;
 app.listen(port, function() {
     console.log('started, listening on ' + port);
 });

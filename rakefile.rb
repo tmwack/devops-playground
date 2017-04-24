@@ -8,6 +8,9 @@ task :pack_artifact do
     artifact_name = 'artifact'
     artifact_format = 'zip'
 
+    FileUtils.rm_rf output_dir
+    Dir.mkdir output_dir
+
     output_path = "#{output_dir}#{artifact_name}.#{artifact_format}"
 
     # specifying the file path as it's own variable yielded an archive containing the node-sample directory -- but we
@@ -22,13 +25,11 @@ end
 task :upload_artifact do
     artifact_path = './target/artifact.zip'
     app_name = 'node-sample-app-2'
-    version = '0.0.1.2'
+    version = '0.0.1.4'
 
     s3_artifact_name = "beanstalk/#{app_name}_#{version}.zip"
 
-    aws_access_key = ""
-    aws_secret_key = ""
-    s3 = Aws::S3::Resource.new(region: 'us-east-1', credentials: Aws::Credentials.new(aws_access_key, aws_secret_key))
+    s3 = Aws::S3::Resource.new(region: 'us-east-1')
     s3_bucket = s3.create_bucket(bucket: app_name)
 
     s3_artifact = s3_bucket.object(s3_artifact_name)

@@ -14,14 +14,6 @@ variable "environment" {
   description = "the environment to target"
 }
 
-variable "aws_access_key" {
-  description = "aws access key to use"
-}
-
-variable "aws_secret_key" {
-  description = "aws secret key to use"
-}
-
 variable "aws_region" {
   default = "us-east-1"
   description = "the region in which to apply."
@@ -32,8 +24,6 @@ variable "aws_region" {
 */
 
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
   region     = "${var.aws_region}"
 }
 

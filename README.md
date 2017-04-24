@@ -6,7 +6,7 @@ A collection of artifacts, deployment scripts, and other pieces of code used for
 
 An naive express.js app, used as a deployment artifact.
 
-## beanstalk-template
+## /beanstalk-template
 
 A collection of AWS CLI JSON templates for creating Elastic Beanstalk infrastructure.
 
