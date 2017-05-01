@@ -12,55 +12,35 @@ Distributed as a command-line tool, a Java package, and as a Maven/Gradle/Ant/SB
 
 **This spike will focus on the command-line distribution** -- preferring an agnostic tool, decoupling software deployment from database deployment with respect to programming language.
 
-## Migration
+## Contents
 
-Flyway automates database migration, using the current state of the target database to calculate the changeset then applying the necessary migrations.
+Describes the artifacts within this flyway-spike/ folder.
 
-### The Migrations Directory
+### MIGRATION.md
 
-Migration scripts are defined in SQL and organized within a single folder. The Migration Directory can be configured per-command but it will be `<install-dir>/sql` by default.
+Notes about migration with flyway.
 
-There are two categories of migration supported by Flyway:
+### flyway-migrate-happy.sh + /happy-sql
 
-* [Versioned Migrations](https://flywaydb.org/documentation/migration/versioned), which produce new versions and are applied exactly once (e.g. ALTER TABLE scripts).
-* [Repeatable Migrations](https://flywaydb.org/documentation/migration/repeatable), which can be applied without affecting the database version (e.g. CREATE VIEW scripts).
+Demonstrates flyway migrations using a successful migration. Creates a table, then indexes an column on that table.
 
-### The schema_version table
+Required: postgresql (9.4+), flyway (4.2.0+), `flyway` command on the PATH.
 
-Each migration is tracked with an entry in the ***schema_version table***. When migrating, flyway uses the *schema_version table* to determine which migration scripts need to be applied.
+### flyway-migrate-bad.sh + /bad-sql
 
-Conceptually, the *schema_version table* represents the current state of the database. The table is entirely managed by Flyway alongside the existing database.
+Demonstrates failure path for a flyway migration. The last migration version, *V0.0.3*, will fail and leave a "pending" migration.
 
-### Applying a migration
+Required: postgresql (9.4+), flyway (4.2.0+), `flyway` command on the PATH.
 
-Flyway migrations are enacting using the *migrate* command: `flyway migrate`.
+### flyway.conf.example
 
-There are four major parameters for the migrate command:
+An example configuration file. **Can be used for the demonstration scripts** with a bit of modification.
 
-1. path to Migration Directory
-1. database JDBC URL
-1. username
-1. password
+#### modifying for demonstration scripts
 
-When executed, `flyway migrate` will diff the database against the Migration Directory, then run any migration scripts necessary.
+* Fill in `flyway.user=` with your database username.
+* Fill in `flyway.password=` with your database password.
+* Fill in `flyway.url=` with the JDBC URL for your database.
+* Remove `.example` extension.
 
-#### Flyway Migrate parameters
-
-Parameters can be specified as options on the command *or* with a configuration file:
-
-##### Command Options
-
-`flyway -locations=filesystem:<path-to-Migration-Directory> -url=<database-JDBC-URL> -user=<username> -password=<password> migrate`
-
-##### Configuration File
-
-`flyway -configFile=<path-to-config-file> migrate`
-
-```text
-# Settings are simple key-value pairs
-
-flyway.url=<path-to-Migration-Directory>
-flyway.user=<username>
-flyway.password=<password>
-flyway.locations=filesystem:<path-to-Migration-Directory>
-```
+**Note**: `flyway.locations=` is not required because the demonstration scripts override this parameter with a command option.

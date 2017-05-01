@@ -1,0 +1,5 @@
+# Settings are simple key-value pairs
+
+flyway.url=jdbc:postgresql://localhost:5432/flyway-test-1
+flyway.user=postgres
+flyway.password=PASSWORD-GOES-HERE
