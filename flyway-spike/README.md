@@ -4,26 +4,63 @@ Spiking [Flyway](https://flywaydb.org/), taking notes on what I find, what I lik
 
 ## About Flyway
 
-[Flyway](https://flywaydb.org/getstarted/how) is a database tool for managing versioning, migrations, and standard DB management tasks. Written in Java, Flyway provides JVM packages, node packages, and a command-line tool.
+[Flyway](https://flywaydb.org/getstarted/how) is **a database tool for managing migrations, schema versioning**, and standard DB management tasks.
 
-Flyway supports any database with a JDBC driver. It is pre-packaged with JDBC drivers for most popular RDMBS, e.g. Postgres, MySQL, SQL Server.
+Supports any database with a JDBC driver. It is pre-packaged with JDBC drivers for most popular RDMBS, e.g. Postgres, MySQL, SQL Server.
+
+Distributed as a command-line tool, a Java package, and as a Maven/Gradle/Ant/SBT plugin.
+
+**This spike will focus on the command-line distribution** -- preferring an agnostic tool, decoupling software deployment from database deployment with respect to programming language.
 
 ## Migration
 
 Flyway automates database migration, using the current state of the target database to calculate the changeset then applying the necessary migrations.
 
-### database version: the metadata table
+### The Migrations Directory
 
-Flyway tracks every migration with an entry in the metadata table. The version of the database is derived from the success/failure of migrations in the metadata table.
+Migration scripts are defined in SQL and organized within a single folder. The Migration Directory can be configured per-command but it will be `<install-dir>/sql` by default.
 
-Conceptually, the metadata table holds the current state of the database. The table is entirely managed by Flyway alongside the existing database.
+There are two categories of migration supported by Flyway:
 
-### applying a migration
+* [Versioned Migrations](https://flywaydb.org/documentation/migration/versioned), which produce new versions and are applied exactly once (e.g. ALTER TABLE scripts).
+* [Repeatable Migrations](https://flywaydb.org/documentation/migration/repeatable), which can be applied without affecting the database version (e.g. CREATE VIEW scripts).
 
-When Flyway migrates a database to a version, the metadata table is consulted to calculate the necessary changeset. If the targeted database is behind a few migration versions, then Flyway enqueue those few migrations before the targeted version.
+### The schema_version table
 
-A flyway migration requires the following parameters:
-1. database URL
-2. username
-3. password
-4. migration directory
+Each migration is tracked with an entry in the ***schema_version table***. When migrating, flyway uses the *schema_version table* to determine which migration scripts need to be applied.
+
+Conceptually, the *schema_version table* represents the current state of the database. The table is entirely managed by Flyway alongside the existing database.
+
+### Applying a migration
+
+Flyway migrations are enacting using the *migrate* command: `flyway migrate`.
+
+There are four major parameters for the migrate command:
+
+1. path to Migration Directory
+1. database JDBC URL
+1. username
+1. password
+
+When executed, `flyway migrate` will diff the database against the Migration Directory, then run any migration scripts necessary.
+
+#### Flyway Migrate parameters
+
+Parameters can be specified as options on the command *or* with a configuration file:
+
+##### Command Options
+
+`flyway -locations=filesystem:<path-to-Migration-Directory> -url=<database-JDBC-URL> -user=<username> -password=<password> migrate`
+
+##### Configuration File
+
+`flyway -configFile=<path-to-config-file> migrate`
+
+```text
+# Settings are simple key-value pairs
+
+flyway.url=<path-to-Migration-Directory>
+flyway.user=<username>
+flyway.password=<password>
+flyway.locations=filesystem:<path-to-Migration-Directory>
+```
